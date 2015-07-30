@@ -17,4 +17,16 @@ RSpec.feature 'UserAccounts', type: :feature do
     expect(page).to have_content("Hello #{username}")
   end
 
+  scenario 'user view account details' do
+    username = 'joe'
+    password = 'dirt'
+    User.create(username: username, password: password)
+    @user = User.find_by(username: username)
+
+    visit user_path(@user.id)
+
+    expect(page).to have_content("#{username}'s Account")
+    expect(find('th')).to have_content('Username')
+    expect(find('tr')).to have_content("#{username}")
+  end
 end
